@@ -1,0 +1,52 @@
+{
+  "usuarios": [
+    {
+      "nombre": "Pedro",
+      "apellido": "Suthy",
+      "email": "correo@mail.com",
+      "password": "123456",
+      "admin": false
+    },
+    {
+      "nombre": "camilo",
+      "apellido": "Suthy",
+      "email": "camilo@mail.com",
+      "password": "123456",
+      "admin": true
+    },
+    {
+      "id": "c1ef",
+      "nombre": "pedro",
+      "apellido": "",
+      "email": "pedro@gmail.com",
+      "password": "1234567",
+      "admin": false
+    }
+  ],
+  "eventos": [
+    {
+      "id": 1,
+      "nombre": "medellin vive",
+      "fecha": "19/02/2026",
+      "descripcion": "una integración de bandas históricas colombianas en 1 sola fecha",
+      "precio": 20,
+      "imagen": "https://imgs.search.brave.com/TOzWq-Jjw2H9vCJp-Xlcg_BZBQOQ92Jb3-_XtfUVBOM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWV0cm9kZW1lZGVs/bGluLmdvdi5jby9o/cy1mcy9odWJmcy9t/ZXRyby1tZWRlbGxp/bi1jb25jaWVydG8y/LmpwZz93aWR0aD0x/MDI0JmhlaWdodD03/NjgmbmFtZT1tZXRy/by1tZWRlbGxpbi1j/b25jaWVydG8yLmpw/Zw"
+    },
+    {
+      "id": 2,
+      "nombre": "industry comedy",
+      "fecha": "27/05/2026",
+      "descripcion": "un evento donde se reunirán los comediantes mas aclamados de Colombia, con hasta 5 horas de comedia en diferentes lugares todo el día",
+      "precio": 30,
+      "imagen": "https://imgs.search.brave.com/8w3CPanKX5DtleMybrZYHptdiGBr-Gg-PkmkrwiWmQk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb21l/ZHljZW50ZXIub3Jn/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIx/LzA5L2V4cGVyaWVu/Y2UtdGhlLW5hdGlv/bmFsLWNvbWVkeS1j/ZW50ZXIuanBn"
+    },
+    {
+      "id": 3,
+      "nombre": "pa' artistas",
+      "fecha": "19/09/2026",
+      "descripcion": "una tarde y noche agradable acompañada de buena música y muchas actividades artísticas, no te la pierdas",
+      "precio": 22,
+      "imagen": "https://imgs.search.brave.com/MVm5OvjxLXR3jfLdKOs4OXyXPjRRf5mf-i_Cx2HeVgY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9lc3Rh/dGljb3MuZWxjb2xv/bWJpYW5vLmNvbS9k/b2N1bWVudHMvMTAx/NTcvMC81ODB4Mzcy/LzBjMC81ODBkMzY1/L2NlbnRlci8xMTEw/MS9PS0RPL2ltYWdl/X2NvbnRlbnRfMjgx/ODE4OTlfMjAxNzAz/MDYyMTI3NTkuanBn"
+    }
+  ]
+}
