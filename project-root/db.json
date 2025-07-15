@@ -21,32 +21,48 @@
       "email": "pedro@gmail.com",
       "password": "1234567",
       "admin": false
+    },
+    {
+      "id": "59a7",
+      "nombre": "pedropdrop",
+      "apellido": "",
+      "email": "misnalgas@gmail.com",
+      "password": "12345678",
+      "admin": false
     }
   ],
   "eventos": [
     {
-      "id": 1,
-      "nombre": "medellin vive",
-      "fecha": "19/02/2026",
-      "descripcion": "una integración de bandas históricas colombianas en 1 sola fecha",
+      "id": "evt-1697040000000-abcde",
+      "nombre": "Medellín Vive",
+      "fecha": "2026-02-19",
+      "descripcion": "Una integración de bandas históricas colombianas en una sola fecha.",
       "precio": 20,
       "imagen": "https://imgs.search.brave.com/TOzWq-Jjw2H9vCJp-Xlcg_BZBQOQ92Jb3-_XtfUVBOM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWV0cm9kZW1lZGVs/bGluLmdvdi5jby9o/cy1mcy9odWJmcy9t/ZXRyby1tZWRlbGxp/bi1jb25jaWVydG8y/LmpwZz93aWR0aD0x/MDI0JmhlaWdodD03/NjgmbmFtZT1tZXRy/by1tZWRlbGxpbi1j/b25jaWVydG8yLmpw/Zw"
     },
     {
-      "id": 2,
-      "nombre": "industry comedy",
-      "fecha": "27/05/2026",
-      "descripcion": "un evento donde se reunirán los comediantes mas aclamados de Colombia, con hasta 5 horas de comedia en diferentes lugares todo el día",
+      "id": "evt-1697040000001-xyz12",
+      "nombre": "Industry Comedy",
+      "fecha": "2026-05-27",
+      "descripcion": "Un evento donde se reunirán los comediantes más aclamados de Colombia, con hasta 5 horas de comedia en diferentes lugares todo el día.",
       "precio": 30,
       "imagen": "https://imgs.search.brave.com/8w3CPanKX5DtleMybrZYHptdiGBr-Gg-PkmkrwiWmQk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb21l/ZHljZW50ZXIub3Jn/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIx/LzA5L2V4cGVyaWVu/Y2UtdGhlLW5hdGlv/bmFsLWNvbWVkeS1j/ZW50ZXIuanBn"
     },
     {
-      "id": 3,
-      "nombre": "pa' artistas",
-      "fecha": "19/09/2026",
-      "descripcion": "una tarde y noche agradable acompañada de buena música y muchas actividades artísticas, no te la pierdas",
+      "id": "evt-1697040000002-klm34",
+      "nombre": "Pa' Artistas",
+      "fecha": "2026-09-19",
+      "descripcion": "Una tarde y noche agradable acompañada de buena música y muchas actividades artísticas. ¡No te la pierdas!",
       "precio": 22,
       "imagen": "https://imgs.search.brave.com/MVm5OvjxLXR3jfLdKOs4OXyXPjRRf5mf-i_Cx2HeVgY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9lc3Rh/dGljb3MuZWxjb2xv/bWJpYW5vLmNvbS9k/b2N1bWVudHMvMTAx/NTcvMC81ODB4Mzcy/LzBjMC81ODBkMzY1/L2NlbnRlci8xMTEw/MS9PS0RPL2ltYWdl/X2NvbnRlbnRfMjgx/ODE4OTlfMjAxNzAz/MDYyMTI3NTkuanBn"
+    },
+    {
+      "id": "evt-1752582558818-0jf6n",
+      "nombre": "gamers medellin",
+      "fecha": "2026-10-15",
+      "descripcion": "un evento para gamers con múltiples implicaciones tecnologicas, mamasita",
+      "precio": 20,
+      "imagen": "https://imgs.search.brave.com/Mtn0KIvejbo7JRGjVIaZXQuvqaQ0ajYNfH8MKhxG4vM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG53/b3JkcHJlc3N0ZXN0/LWYwZWtkZ2V2Y25n/ZWd1ZGIuejAxLmF6/dXJlZmQubmV0L2Vz/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDI0/LzExL2ZpZXN0YS1k/ZS1sb3MtZ2FtZXJz/LTEtMTAyNHg3MDQu/anBn"
     }
   ]
 }
