@@ -1,4 +1,9 @@
-import { get } from './services.js';
+import { get, post, put, deletes } from './services.js';
+
+// Función para generar IDs únicos como cadenas de texto
+function generateId(prefix = 'evt') {
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+}
 
 // router structure
 const app = document.getElementById('spa-content');
@@ -206,7 +211,6 @@ async function renderCatalogo() {
     if (user && user.admin) {
       // Mostrar modal agregar
       const openModal = async (modo, eventoData = null) => {
-        // Espera a que el modal esté en el DOM
         let modal = document.getElementById('modal-evento');
         if (!modal) {
           const modalHtml = await fetch('./pages/modal-evento.html').then(r => r.text());
@@ -240,62 +244,61 @@ async function renderCatalogo() {
           const descripcion = document.getElementById('evento-descripcion').value.trim();
           const precio = Number(document.getElementById('evento-precio').value);
           const imagen = document.getElementById('evento-imagen').value.trim();
+          const errorDiv = document.getElementById('evento-error');
+          errorDiv.textContent = '';
           // Validaciones estrictas
           if (!nombre || !fecha || !descripcion || !precio || !imagen) {
-            errorDiv.textContent = 'Todos los campos son obligatorios.';
-            return;
+              errorDiv.textContent = 'Todos los campos son obligatorios.';
+              return;
           }
           if (nombre.length < 2) {
-            errorDiv.textContent = 'El nombre debe tener al menos 2 caracteres.';
-            return;
+              errorDiv.textContent = 'El nombre debe tener al menos 2 caracteres.';
+              return;
           }
           if (fecha.length < 2) {
-            errorDiv.textContent = 'la fecha debe tener al menos 2 caracteres.';
-            return;
+              errorDiv.textContent = 'La fecha debe tener al menos 2 caracteres.';
+              return;
           }
           if (descripcion.length < 10) {
-            errorDiv.textContent = 'La descripción debe tener al menos 10 caracteres.';
-            return;
+              errorDiv.textContent = 'La descripción debe tener al menos 10 caracteres.';
+              return;
           }
           if (isNaN(precio) || precio <= 0) {
-            errorDiv.textContent = 'El precio debe ser mayor que 0.';
-            return;
+              errorDiv.textContent = 'El precio debe ser mayor que 0.';
+              return;
           }
           if (!/^https?:\/\//.test(imagen)) {
-            errorDiv.textContent = 'La URL de la imagen debe ser válida.';
-            return;
+              errorDiv.textContent = 'La URL de la imagen debe ser válida.';
+              return;
           }
           try {
-            const { post, put, get } = await import('./services.js');
-            const eventos = await get('eventos');
-            // Validación de título duplicado (ignorando el propio evento en edición)
-            const nombreNormalizado = nombre.trim().toLowerCase().replace(/\s+/g, ' ');
-            const existeDuplicado = eventos.some(e => {
-              if (modo === 'editar' && eventoData && Number(e.id) === Number(eventoData.id)) return false;
-              return e.nombre.trim().toLowerCase().replace(/\s+/g, ' ') === nombreNormalizado;
-            });
-            if (existeDuplicado) {
-              errorDiv.textContent = 'Ya existe un evento con ese nombre.';
-              return;
-            }
-            if (modo === 'editar' && eventoData) {
-              // Buscar evento original por id
-              const eventos = await get('eventos');
-              const eventoOriginal = eventos.find(e => e.id === eventoData.id);
-              if (!eventoOriginal) throw new Error('Evento no encontrado');
-              await put('/eventos', eventoOriginal.id, { id: eventoOriginal.id, nombre, fecha, descripcion, precio, imagen });
-            } else {
-              // Generar id incremental automáticamente
-              const eventos = await get('eventos');
-              let maxId = 0;
-              eventos.forEach(e => { if (typeof e.id === 'number' && e.id > maxId) maxId = e.id; });
-              const nuevoEvento = { id: Number(maxId + 1), nombre, fecha, descripcion, precio, imagen };
-              await post('eventos', nuevoEvento);
-            }
-            modal.style.display = 'none';
-            renderCatalogo();
+              if (modo === 'editar' && eventoData) {
+                  // Actualizar el objeto existente
+                  const eventoEditado = {
+                      id: eventoData.id, // Mantener el mismo ID
+                      nombre,
+                      fecha,
+                      descripcion,
+                      precio,
+                      imagen
+                  };
+                  await put('eventos', eventoData.id, eventoEditado); // Enviar la actualización al servidor
+              } else {
+                  // Crear un nuevo objeto
+                  const nuevoEvento = {
+                      id: generateId(),
+                      nombre,
+                      fecha,
+                      descripcion,
+                      precio,
+                      imagen
+                  };
+                  await post('eventos', nuevoEvento); // Enviar el nuevo objeto al servidor
+              }
+              modal.style.display = 'none';
+              renderCatalogo(); // Actualizar el catálogo después de guardar
           } catch (err) {
-            errorDiv.textContent = 'Error al guardar evento.';
+              errorDiv.textContent = 'Error al guardar evento.';
           }
         };
 
@@ -308,39 +311,29 @@ async function renderCatalogo() {
       // Botones editar
       document.querySelectorAll('.editar-evento-btn').forEach(btn => {
         btn.onclick = async () => {
-          const idEvento = Number(btn.getAttribute('data-id'));
+          const idEvento = btn.getAttribute('data-id'); // Leer ID como string
           const eventos = await get('eventos');
-          const evento = eventos.find(e => Number(e.id) === idEvento);
+          const evento = eventos.find(e => e.id === idEvento);
           if (evento) openModal('editar', evento);
         };
       });
-      // Botones eliminar
+
       document.querySelectorAll('.eliminar-evento-btn').forEach(btn => {
         btn.onclick = async () => {
-          const idEvento = Number(btn.getAttribute('data-id'));
-          const { deletes, get } = await import('./services.js');
+          const idEvento = btn.getAttribute('data-id'); // Leer ID como string
           const eventos = await get('eventos');
-          // Fuerza comparación numérica para ids
-          const evento = eventos.find(e => Number(e.id) === idEvento);
+          const evento = eventos.find(e => e.id === idEvento);
           if (!evento) {
             showNotif('Evento no encontrado.', false);
             return;
           }
-          if (!evento.id) {
-            showNotif('Este evento no tiene un ID único. No se puede eliminar de forma segura.', false);
-            return;
-          }
-          if (confirm('¿Seguro que deseas eliminar el evento "'+evento.nombre+'"?')) {
+          if (confirm(`¿Seguro que deseas eliminar el evento "${evento.nombre}"?`)) {
             try {
               await deletes('eventos', evento.id);
-              showNotif('evento eliminado correctamente.', true);
+              showNotif('Evento eliminado correctamente.', true);
               renderCatalogo();
             } catch (err) {
-                if (err && err.message) {
-                    showNotif('Error al eliminar el evento: ' + err.message, false);
-                } else {
-                    showNotif('Error al eliminar el evento.', false);
-                }
+              showNotif('Error al eliminar el evento.', false);
             }
           }
         };
