@@ -10,7 +10,7 @@ export async function get(path){
  }   
 }
 
-export  async function post(path, obj){
+export async function post(path, obj) {
     try {
         const response = await fetch(`${baseUrl}/${path}`, {
             method: 'POST',
@@ -19,25 +19,22 @@ export  async function post(path, obj){
             },
             body: JSON.stringify(obj)
         });
-
         if (!response.ok) {
             const error_text = await response.text();
             throw new Error(`Error ${response.status}: ${error_text}`);
         }
         const data = await response.json();
         return data;
-
     } catch (error) {
         console.error("Error en post:", error.message || error);
         throw error;
-    }   
+    }
 }
 
 // Edita un evento por su id. Debe enviar el objeto completo (incluyendo id)
 export async function put(path, id, obj) {
     try {
-        const numericId = Number(id);
-        const response = await fetch(`${baseUrl}/${path}/${numericId}`, {
+        const response = await fetch(`${baseUrl}/${path}/${id}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json"
@@ -56,19 +53,15 @@ export async function put(path, id, obj) {
     }
 }
 
-// eliminar evento por la id
 export async function deletes(path, id) {
     try {
-        // Fuerza id a número y usa slash correcto
-        const numericId = Number(id);
-        const response = await fetch(`${baseUrl}/${path}/${numericId}`, {
+        const response = await fetch(`${baseUrl}/${path}/${id}`, { // ID como string
             method: 'DELETE',
         });
         if (!response.ok) {
             const error_text = await response.text();
             throw new Error(`Error ${response.status}: ${error_text}`);
         }
-        // JSON Server retorna {} en delete
         return true;
     } catch (error) {
         console.error("Error en DELETE:", error.message || error);
