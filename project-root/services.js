@@ -68,3 +68,36 @@ export async function deletes(path, id) {
         throw error;
     }
 }
+
+export function validateForm(fields) {
+  for (const field of fields) {
+    if (!field.value.trim()) {
+      return `${field.name} es obligatorio.`;
+    }
+    if (field.type === 'email' && !/^\S+@\S+\.\S+$/.test(field.value)) {
+      return 'Correo electrónico inválido.';
+    }
+    if (field.type === 'password' && field.value.length < 6) {
+      return 'La contraseña debe tener al menos 6 caracteres.';
+    }
+  }
+  return null;
+}
+
+export function showNotification(message, isSuccess = true) {
+  let notif = document.getElementById('notification');
+  if (!notif) {
+    notif = document.createElement('div');
+    notif.id = 'notification';
+    notif.className = 'notification'; // Use CSS class for styling
+    document.body.appendChild(notif);
+  }
+  notif.textContent = message;
+  notif.className = isSuccess ? 'notification success' : 'notification error'; // Apply success/error styles
+  notif.style.display = 'block';
+  notif.style.opacity = '1';
+  setTimeout(() => {
+    notif.style.opacity = '0';
+    setTimeout(() => { notif.style.display = 'none'; }, 350);
+  }, 1800);
+}
