@@ -11,6 +11,27 @@
     </div>
         <button type="submit">Ingresar</button>
         <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
-    <div id="loginError" class="form-error" style="display:none;"></div>
+    <div id="loginError" class="form-error hide"></div>
 </form>
 </div>
+<script type="module">
+  import { get, showNotification } from '../services.js';
+
+  document.getElementById('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const loginError = document.getElementById('loginError');
+    loginError.classList.add('hide');
+    const users = await get('usuarios');
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) {
+      loginError.textContent = 'Correo o contraseña incorrectos';
+      loginError.classList.remove('hide');
+      return;
+    }
+    localStorage.setItem('user', JSON.stringify(user));
+    showNotification('Inicio de sesión exitoso.');
+    window.location.hash = '/catalogo';
+  });
+</script>
