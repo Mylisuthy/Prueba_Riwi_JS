@@ -1,5 +1,24 @@
 import { get, post, put, deletes } from './services.js';
 
+// Helper: Show notification
+function showNotification(message, isSuccess = true) {
+  let notif = document.getElementById('notification');
+  if (!notif) {
+    notif = document.createElement('div');
+    notif.id = 'notification';
+    notif.className = 'notification'; // Use CSS class for styling
+    document.body.appendChild(notif);
+  }
+  notif.textContent = message;
+  notif.className = isSuccess ? 'notification success' : 'notification error'; // Apply success/error styles
+  notif.style.display = 'block';
+  notif.style.opacity = '1';
+  setTimeout(() => {
+    notif.style.opacity = '0';
+    setTimeout(() => { notif.style.display = 'none'; }, 350);
+  }, 1800);
+}
+
 // Función para generar IDs únicos como cadenas de texto
 function generateId(prefix = 'evt') {
     return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
@@ -133,58 +152,20 @@ function getUser() {
 
 // Renderizar eventos en cartas con grid y estilos
 async function renderCatalogo() {
-  // Mensaje flotante (notificación)
-  let notif = document.getElementById('catalogo-notif');
-  if (!notif) {
-    notif = document.createElement('div');
-    notif.id = 'catalogo-notif';
-    notif.style.position = 'fixed';
-    notif.style.top = '32px';
-    notif.style.left = '50%';
-    notif.style.transform = 'translateX(-50%)';
-    notif.style.zIndex = '2000';
-    notif.style.background = '#1976d2';
-    notif.style.color = '#fff';
-    notif.style.padding = '0.9rem 2.1rem';
-    notif.style.borderRadius = '7px';
-    notif.style.boxShadow = '0 2px 16px rgba(25,118,210,0.12)';
-    notif.style.fontWeight = '500';
-    notif.style.fontSize = '1.06rem';
-    notif.style.display = 'none';
-    notif.style.transition = 'opacity 0.18s';
-    document.body.appendChild(notif);
-  }
-  function showNotif(msg, ok=true) {
-    notif.textContent = msg;
-    notif.style.background = ok ? '#1976d2' : '#d32f2f';
-    notif.style.display = 'block';
-    notif.style.opacity = '1';
-    setTimeout(()=>{
-      notif.style.opacity = '0';
-      setTimeout(()=>{notif.style.display='none';}, 350);
-    }, 1800);
-  }
-
   const contenedor = document.getElementById('catalogo-lista');
   if (!contenedor) return;
-  contenedor.innerHTML = '<div style="text-align:center;">Cargando eventos...</div>';
+  contenedor.innerHTML = '<div class="text-center">Cargando eventos...</div>';
   try {
     const eventos = await get('eventos');
     if (!eventos || eventos.length === 0) {
-      contenedor.innerHTML = '<div style="text-align:center;">No hay eventos disponibles.</div>';
+      contenedor.innerHTML = '<div class="text-center">No hay eventos disponibles.</div>';
       return;
     }
     const user = getUser();
-    // Inyectar modal si es admin
-    if (user && user.admin && !document.getElementById('modal-eventos')) {
-      fetch('./pages/modal-eventos.html').then(r => r.text()).then(modalHtml => {
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-      });
-    }
     let html = '';
     // Botón agregar eventos
     if (user && user.admin) {
-      html += '<button id="agregar-evento-btn" class="catalog-card-btn" style="margin-bottom:1.5rem;">Agregar evento</button>';
+      html += '<button id="agregar-evento-btn" class="catalog-card-btn mt-2">Agregar evento</button>';
     }
     html += '<div class="catalogo-grid">';
     for (const evento of eventos) {
@@ -193,13 +174,13 @@ async function renderCatalogo() {
           <img class="catalog-card-img" src="${evento.imagen}" alt="${evento.nombre}" />
           <div class="catalog-card-body">
             <div class="catalog-card-title">${evento.nombre}</div>
-            <div class="catalog-card-fecha"><b>fecha:</b> ${evento.fecha ? evento.fecha : 'Desconocido'}</div>
+            <div class="catalog-card-fecha"><b>Fecha:</b> ${evento.fecha || 'Desconocido'}</div>
             <div class="catalog-card-desc">${evento.descripcion}</div>
             <div class="catalog-card-price">$${evento.precio}</div>
             <button class="catalog-card-btn">Ver más</button>
             ${user && user.admin ? `
-              <button class="catalog-card-btn editar-evento-btn" data-id="${evento.id}" style="background:#1976d2;margin-top:0.5rem;">Editar</button>
-              <button class="catalog-card-btn eliminar-evento-btn" data-id="${evento.id}" style="background:#d32f2f;margin-top:0.5rem;">Eliminar</button>
+              <button class="catalog-card-btn editar-evento-btn mt-2" data-id="${evento.id}">Editar</button>
+              <button class="catalog-card-btn eliminar-evento-btn mt-2" data-id="${evento.id}">Eliminar</button>
             ` : ''}
           </div>
         </div>
@@ -207,140 +188,44 @@ async function renderCatalogo() {
     }
     html += '</div>';
     contenedor.innerHTML = html;
+
     // Listeners CRUD para bibliotecario
     if (user && user.admin) {
-      // Mostrar modal agregar
-      const openModal = async (modo, eventoData = null) => {
-        let modal = document.getElementById('modal-evento');
-        if (!modal) {
-          const modalHtml = await fetch('./pages/modal-evento.html').then(r => r.text());
-          document.body.insertAdjacentHTML('beforeend', modalHtml);
-          modal = document.getElementById('modal-evento');
-        }
-        modal.style.display = 'flex';
-        const form = document.getElementById('form-evento');
-        const title = document.getElementById('modal-evento-title');
-        const errorDiv = document.getElementById('evento-error');
-        errorDiv.textContent = '';
-        // Reset form
-        form.reset();
-        if (modo === 'editar' && eventoData) {
-          title.textContent = 'Editar evento';
-          document.getElementById('evento-nombre').value = eventoData.nombre;
-          document.getElementById('evento-fecha').value = eventoData.fecha;
-          document.getElementById('evento-descripcion').value = eventoData.descripcion;
-          document.getElementById('evento-precio').value = eventoData.precio;
-          document.getElementById('evento-imagen').value = eventoData.imagen;
-        } else {
-          title.textContent = 'Agregar evento';
-        }
-        // Cancelar
-        document.getElementById('evento-cancel').onclick = () => { modal.style.display = 'none'; };
-        // Submit
-        form.onsubmit = async (e) => {
-          e.preventDefault();
-          const nombre = document.getElementById('evento-nombre').value.trim();
-          const fecha = document.getElementById('evento-fecha').value.trim();
-          const descripcion = document.getElementById('evento-descripcion').value.trim();
-          const precio = Number(document.getElementById('evento-precio').value);
-          const imagen = document.getElementById('evento-imagen').value.trim();
-          const errorDiv = document.getElementById('evento-error');
-          errorDiv.textContent = '';
-          // Validaciones estrictas
-          if (!nombre || !fecha || !descripcion || !precio || !imagen) {
-              errorDiv.textContent = 'Todos los campos son obligatorios.';
-              return;
-          }
-          if (nombre.length < 2) {
-              errorDiv.textContent = 'El nombre debe tener al menos 2 caracteres.';
-              return;
-          }
-          if (fecha.length < 2) {
-              errorDiv.textContent = 'La fecha debe tener al menos 2 caracteres.';
-              return;
-          }
-          if (descripcion.length < 10) {
-              errorDiv.textContent = 'La descripción debe tener al menos 10 caracteres.';
-              return;
-          }
-          if (isNaN(precio) || precio <= 0) {
-              errorDiv.textContent = 'El precio debe ser mayor que 0.';
-              return;
-          }
-          if (!/^https?:\/\//.test(imagen)) {
-              errorDiv.textContent = 'La URL de la imagen debe ser válida.';
-              return;
-          }
-          try {
-              if (modo === 'editar' && eventoData) {
-                  // Actualizar el objeto existente
-                  const eventoEditado = {
-                      id: eventoData.id, // Mantener el mismo ID
-                      nombre,
-                      fecha,
-                      descripcion,
-                      precio,
-                      imagen
-                  };
-                  await put('eventos', eventoData.id, eventoEditado); // Enviar la actualización al servidor
-              } else {
-                  // Crear un nuevo objeto
-                  const nuevoEvento = {
-                      id: generateId(),
-                      nombre,
-                      fecha,
-                      descripcion,
-                      precio,
-                      imagen
-                  };
-                  await post('eventos', nuevoEvento); // Enviar el nuevo objeto al servidor
-              }
-              modal.style.display = 'none';
-              renderCatalogo(); // Actualizar el catálogo después de guardar
-          } catch (err) {
-              errorDiv.textContent = 'Error al guardar evento.';
-          }
-        };
-
-      };
-      // Botón agregar
       const agregarBtn = document.getElementById('agregar-evento-btn');
       if (agregarBtn) {
         agregarBtn.onclick = () => openModal('agregar');
       }
-      // Botones editar
       document.querySelectorAll('.editar-evento-btn').forEach(btn => {
         btn.onclick = async () => {
-          const idEvento = btn.getAttribute('data-id'); // Leer ID como string
+          const idEvento = btn.getAttribute('data-id');
           const eventos = await get('eventos');
           const evento = eventos.find(e => e.id === idEvento);
           if (evento) openModal('editar', evento);
         };
       });
-
       document.querySelectorAll('.eliminar-evento-btn').forEach(btn => {
         btn.onclick = async () => {
-          const idEvento = btn.getAttribute('data-id'); // Leer ID como string
+          const idEvento = btn.getAttribute('data-id');
           const eventos = await get('eventos');
           const evento = eventos.find(e => e.id === idEvento);
           if (!evento) {
-            showNotif('Evento no encontrado.', false);
+            showNotification('Evento no encontrado.', false);
             return;
           }
           if (confirm(`¿Seguro que deseas eliminar el evento "${evento.nombre}"?`)) {
             try {
               await deletes('eventos', evento.id);
-              showNotif('Evento eliminado correctamente.', true);
+              showNotification('Evento eliminado correctamente.', true);
               renderCatalogo();
             } catch (err) {
-              showNotif('Error al eliminar el evento.', false);
+              showNotification('Error al eliminar el evento.', false);
             }
           }
         };
       });
     }
   } catch (err) {
-    contenedor.innerHTML = '<div style="text-align:center;color:red;">Error al cargar los eventos.</div>';
+    contenedor.innerHTML = '<div class="text-center text-danger">Error al cargar los eventos.</div>';
   }
 }
 
