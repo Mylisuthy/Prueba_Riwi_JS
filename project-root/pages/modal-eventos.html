@@ -1,4 +1,4 @@
-<div id="modal-evento" class="modal-evento" style="display:none;">
+<div id="modal-evento" class="modal-evento hide">
     <div class="modal-content auth-form">
         <h2 id="modal-evento-title">Agregar libro</h2>
         <form id="form-evento">
@@ -23,9 +23,9 @@
                 <input class="input" id="evento-imagen" name="imagen" type="url" required />
             </div>
             <div class="form-error" id="evento-error" aria-live="polite"></div>
-            <div style="display:flex; gap:1rem; justify-content:center; margin-top:1rem;">
+            <div class="form-actions">
                 <button class="btn" type="submit" id="evento-submit">Guardar</button>
-                <button class="btn" type="button" id="evento-cancel" style="background:#d32f2f;">Cancelar</button>
+                <button class="btn btn-cancel" type="button" id="evento-cancel">Cancelar</button>
             </div>
         </form>
     </div>
