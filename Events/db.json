@@ -1,0 +1,70 @@
+{
+  "usuarios": [
+    {
+      "id": "3e41",
+      "nombre": "Pedro",
+      "apellido": "Suthy",
+      "email": "correo@mail.com",
+      "password": "123456",
+      "admin": false
+    },
+    {
+      "id": "0fe4",
+      "nombre": "Camilo",
+      "apellido": "Suthy",
+      "email": "camilo@mail.com",
+      "password": "123456",
+      "admin": true
+    },
+    {
+      "id": "c1ef",
+      "nombre": "Ana",
+      "apellido": "Gomez",
+      "email": "ana@gmail.com",
+      "password": "123456",
+      "admin": false
+    },
+    {
+      "id": "b978",
+      "nombre": "Luis",
+      "apellido": "Martinez",
+      "email": "luis@gmail.com",
+      "password": "123456",
+      "admin": false
+    }
+  ],
+  "eventos": [
+    {
+      "id": "evt-1697040000000-abcde",
+      "nombre": "Medellín Vive",
+      "fecha": "2026-02-19",
+      "descripcion": "Una integración de bandas históricas colombianas en una sola fecha.",
+      "precio": 20,
+      "imagen": "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/I2LKU4ZQIJEQJIXFBPYZ5GWLQ4.png"
+    },
+    {
+      "id": "evt-1697040000001-xyz12",
+      "nombre": "Industry Comedy",
+      "fecha": "2026-05-27",
+      "descripcion": "Un evento donde se reunirán los comediantes más aclamados de Colombia, con hasta 5 horas de comedia en diferentes lugares todo el día.",
+      "precio": 30,
+      "imagen": "https://imgs.search.brave.com/8w3CPanKX5DtleMybrZYHptdiGBr-Gg-PkmkrwiWmQk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb21lZHljZW50ZXIub3JnL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDIxLzA5L2V4cGVyaWVuY2UtdGhlLW5hdGlvbmFsLWNvbWVkeS1jZW50ZXIuanBn"
+    },
+    {
+      "id": "evt-1697040000002-klm34",
+      "nombre": "Pa' Artistas",
+      "fecha": "2026-09-19",
+      "descripcion": "Una tarde y noche agradable acompañada de buena música y muchas actividades artísticas. ¡No te la pierdas!",
+      "precio": 22,
+      "imagen": "https://imgs.search.brave.com/MVm5OvjxLXR3jfLdKOs4OXyXPjRRf5mf-i_Cx2HeVgY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9lc3RhdGljb3MuZWxjb2xvbWJpYW5vLmNvbS9kb2N1bWVudHMvMTAxNTcvMC81ODB4MzcyLzBjMC81ODBkMzY1L2NlbnRlci8xMTEwMS9PS0RPL2ltYWdlX2NvbnRlbnRfMjgxODE4OTlfMjAxNzAzMDYyMTI3NTkuanBn"
+    },
+    {
+      "id": "evt-1752582558818-0jf6n",
+      "nombre": "Gamers Medellín",
+      "fecha": "2026-10-15",
+      "descripcion": "Un evento para gamers con múltiples implicaciones tecnológicas.",
+      "precio": 20,
+      "imagen": "https://imgs.search.brave.com/Mtn0KIvejbo7JRGjVIaZXQuvqaQ0ajYNfH8MKhxG4vM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG53b3JkcHJlc3N0ZXN0LWYwZWtkZ2V2Y25nZWd1ZGIuejAxLmF6dXJlZmQubmV0L2VzL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDI0LzExL2ZpZXN0YS1kZS1sb3MtZ2FtZXJzLTEtMTAyNHg3MDQuanBn"
+    }
+  ]
+}
