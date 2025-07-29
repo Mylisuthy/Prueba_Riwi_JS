@@ -1,0 +1,17 @@
+{
+  "name": "events",
+  "version": "1.0.0",
+  "description": "a continuacion les muestro mi solucion para la prueba de desempeño, en esta muestro la implementacion de un proyecto con la metodologia SPA y uso de un servidor local para el guardado interactivo de la informacion.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.2"
+  }
+}

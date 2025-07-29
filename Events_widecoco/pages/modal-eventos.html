@@ -1,0 +1,34 @@
+<div id="eventoModal" class="modal-evento hide">
+    <div class="modal-content auth-form">
+        <span id="closeModal" class="close">&times;</span>
+        <h2 id="modalTitle">Agregar Evento</h2>
+        <form id="eventoForm">
+            <input type="hidden" id="eventoId" />
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input class="input" id="nombre" name="nombre" type="text" required minlength="2" />
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input class="input" id="fecha" name="fecha" type="date" required />
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea class="input" id="descripcion" name="descripcion" rows="3" required minlength="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio</label>
+                <input class="input" id="precio" name="precio" type="number" min="1" required />
+            </div>
+            <div class="form-group">
+                <label for="imagen">URL de portada</label>
+                <input class="input" id="imagen" name="imagen" type="url" required />
+            </div>
+            <div class="form-error" id="evento-error" aria-live="polite"></div>
+            <div class="form-actions">
+                <button class="btn" type="submit" id="guardarBtn">Guardar</button>
+                <button class="btn btn-cancel" type="button" id="evento-cancel">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
